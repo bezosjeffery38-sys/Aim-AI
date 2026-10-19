@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT-6 by Kanra - Made in Ghana</title>
+<link rel="manifest" href="manifest.json">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4742089797440940" crossorigin="anonymous"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#070a12;color:#fff;font-family:system-ui, -apple-system; display:flex; flex-direction:column; height:100vh}
+.header{background:#0f1525;border-bottom:1px solid #1f2a44;padding:12px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:18px;letter-spacing:1px} .header span{color:#3bb9ff;font-size:11px;letter-spacing:2px}
+.chat{flex:1;overflow-y:auto;padding:12px;max-width:700px;margin:0 auto;width:100%}
+.msg{margin:10px 0;padding:14px 16px;border-radius:18px;line-height:1.6;font-size:15px;max-width:85%;white-space:pre-wrap}
+.user{background:#2f8cff;color:#000;margin-left:auto;border-bottom-right-radius:4px}
+.ai{background:#151e33;border:1px solid #23314f;border-bottom-left-radius:4px}
+.adbox{background:#101a2e;border:1px dashed #2a3b62;border-radius:12px;min-height:90px;display:flex;align-items:center;justify-content:center;margin:12px 0}
+.input-area{background:#0f1525;border-top:1px solid #1f2a44;padding:10px;position:sticky;bottom:0}
+.input-wrap{max-width:700px;margin:0 auto;display:flex;gap:8px;align-items:end}
+textarea{flex:1;background:#070a12;color:#fff;border:1px solid #23314f;border-radius:20px;padding:12px 16px;min-height:48px;max-height:120px;resize:none;font-size:16px}
+.btn{width:44px;height:44px;border-radius:50%;border:none;background:#2f8cff;font-size:20px;flex-shrink:0}
+.icon-btn{background:#1b233a;color:#fff;border:1px solid #2a3756}
+#preview{max-width:120px;border-radius:10px;display:none;margin:6px 0}
+.small{font-size:10px;color:#6b7fa3;text-align:center;padding:4px}
+</style>
+</head>
+<body>
+<div class="header">
+<h1>GPT-6</h1>
+<span>BY KANRA • MADE IN GHANA 🇬🇭 • WASSCE AI</span>
+</div>
+
+<div class="chat" id="chat">
+<div class="msg ai">Hello! I am <b>GPT-6 by Kanra 🇬🇭</b>
+
+The first Ghanaian AI like ChatGPT!
+
+I can do:
+✓ Physics - Strain, Stress, F = ma
+✓ Maths - Solve equations
+✓ Chemistry, Biology, English
+✓ Upload image of WASSCE question 📷
+✓ Explain like Ghanaian teacher
+
+Try: "What is strain?" or "Hi"</div>
+
+<div class="adbox">
+<ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-4742089797440940" data-ad-slot="5518486682" data-ad-format="auto"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+</div>
+</div>
+
+<div class="input-area">
+<div style="max-width:700px;margin:0 auto">
+<img id="preview">
+<div class="input-wrap">
+<label class="btn icon-btn" style="display:flex;align-items:center;justify-content:center;cursor:pointer">📷<input type="file" id="imgInput" accept="image/*" hidden></label>
+<textarea id="question" placeholder="Ask GPT-6 anything..." rows="1"></textarea>
+<button class="btn" onclick="send()">⚡</button>
+</div>
+<div class="small">GPT-6 by Kanra © 2026 • Ads support this Ghanaian AI • Not affiliated with OpenAI</div>
+</div>
+</div>
+
+<script>
+let selectedImage = null;
+let chatHistory = [];
+
+const imgInput = document.getElementById('imgInput');
+const preview = document.getElementById('preview');
+imgInput.addEventListener('change', e=>{
+ const f=e.target.files[0]; if(!f) return;
+ const r=new FileReader(); r.onload=ev=>{selectedImage=ev.target.result; preview.src=selectedImage; preview.style.display='block';}; r.readAsDataURL(f);
+});
+
+const chatEl = document.getElementById('chat');
+const inputEl = document.getElementById('question');
+
+function addMsg(text, who){
+ const div=document.createElement('div'); div.className='msg '+who; div.textContent=text; chatEl.appendChild(div); chatEl.scrollTop=chatEl.scrollHeight;
+ if(chatEl.children.length % 6 === 0){
+   const ad=document.createElement('div'); ad.className='adbox'; ad.innerHTML='<ins class="adsbygoogle" style="display:block;width:100%" data-ad-client="ca-pub-4742089797440940" data-ad-slot="2737996682" data-ad-format="auto"></ins>'; chatEl.appendChild(ad); try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+ }
+}
+
+async function send(){
+ let q=inputEl.value.trim(); if(!q && !selectedImage) return;
+ if(q) addMsg(q, 'user'); 
+ if(selectedImage) { addMsg('📷 [Image attached]', 'user'); }
+ inputEl.value=''; 
+ const thinking = document.createElement('div'); thinking.className='msg ai'; thinking.textContent='GPT-6 by Kanra is thinking... 🇬🇭'; chatEl.appendChild(thinking); chatEl.scrollTop=chatEl.scrollHeight;
+
+ try{
+   let prompt = q;
+   if(q.toLowerCase()==='hi' || q.toLowerCase()==='hello' || q.toLowerCase()==='hey'){
+     thinking.textContent = `Hello! 👋 I am GPT-6 by Kanra 🇬🇭\n\nMade in Ghana for you!\n\nAsk me anything - Physics, Maths, Chemistry, Biology, English. You can also upload image of question!\n\nExample:\n• What is strain?\n• Solve 2x + 5 = 15\n• Explain photosynthesis\n\nHow can I help you today?`;
+     chatHistory.push({q, a: thinking.textContent}); selectedImage=null; preview.style.display='none'; return;
+   }
+   
+   if(selectedImage){
+     prompt = `Student uploaded image of question. They typed: "${q}". The image likely contains WASSCE Physics/Maths/Chemistry question. Solve step by step as Ghanaian teacher. Give formula, substitution, answer, tip. Be clear. Question text: ${q}`;
+   } else {
+     prompt = `You are GPT-6 by Kanra, a friendly Ghanaian AI teacher made in Ghana for WASSCE students. Answer like ChatGPT but with Ghanaian context. If Physics: give definition, formula, steps, example, WASSCE tip. Keep answer clear, not too long. Question: ${q}`;
+   }
+
+   const res = await fetch('https://text.pollinations.ai/' + encodeURIComponent(prompt), {method:'GET'});
+   let text = await res.text();
+   if(!text || text.length < 10) throw new Error('empty');
+   text = text.replace(/\*\*/g,'');
+   thinking.textContent = text + "\n\n— GPT-6 by Kanra 🇬🇭";
+   chatHistory.push({q, a: text});
+ } catch(e){
+   thinking.textContent = `Network slow! Quick help:\n\nIf "Strain": Strain = Extension / Original Length, no unit.\nIf "Stress": Stress = Force/Area (Pascal).\nIf Maths: Tell me equation.\n\nTry again, GPT-6 is free AI! 🇬🇭`;
+ }
+ selectedImage=null; preview.style.display='none';
+}
+
+inputEl.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+</script>
+</body>
+</html>
